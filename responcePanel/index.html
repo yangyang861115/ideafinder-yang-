@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!--FontAwesome-->
+    <link href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/custom.css">
+    <link rel="stylesheet" href="../css/acc-wizard.min.css">
+    <link rel="stylesheet" href="../libs/toastr/toastr.css">
+    <link rel="stylesheet" href="../css/loader.css">
+    
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- FormValidation CSS file -->
+
+    <link rel="stylesheet" href="../css/custom.css">
+    <title>Brass Tacks Project/Partnership Generator</title>
+</head>
+<style type="text/css">
+
+textarea {
+    resize: none;
+}
+</style>
+
+<body ng-controller="ValidationCtrl as valid" ng-init="getCanvasList()">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <a href="enduser.html" class="nounderline">
+                  <div class="lead well">
+                    <h1>Brass Tacks Project/Partnership Generator</h1>
+                  </div>
+                </a> 
+            </div>
+        </div>
+        <div ng-if="preLoader" class="js">
+             <div id="preloader" style="opacity:0.7;background: #333 url('../img/loading.gif') no-repeat center center;"></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-offset-1 col-md-10">
+                <!--10 question form-->
+                <div class="alert alert-success" role="alert" ng-show="message">{{message}}</div>
+                <div ng-show="showdetail">
+                
+                <ul class="list-group">
+                    <li class="list-group-item"><b>Name</b>:  {{username}}</li>
+                    <li class="list-group-item"><b>Email</b>:  {{email}}</li>
+                    <li class="list-group-item"><b>Title</b>:  {{title}}</li>
+                </ul>
+                <ul class="list-group">
+                    <li class="list-group-item"><b>Problem</b>:  {{problem}}</li>
+                    <li class="list-group-item"><b>Small_test</b>:  {{small_test}}</li>
+                    <li class="list-group-item"><b>Unique_value</b>:  {{unique_value}}</li>
+                    <li class="list-group-item"><b>Measurements</b>:  {{measurements}}</li>
+                    <li class="list-group-item"><b>Personas</b>:  {{personas}}</li>
+                    <li class="list-group-item"><b>Pathways</b>:  {{pathways}}</li>
+                    <li class="list-group-item"><b>uniqueness</b>:  {{uniqueness}}</li>
+                    <li class="list-group-item"><b>Human Resource</b>:  {{human_resource}}</li>
+                    <li class="list-group-item"><b>Finance</b>:  {{finance}}</li>
+                    <li class="list-group-item"><b>Timeline</b>:  {{timeline}}</li>
+                </ul>
+                <button class="btn btn-success" ng-click="addnewproject()">Add New Project</button>
+                </div>
+
+                <form ng-hide="hideform" id="tenQsForm" name="myForm" ng-submit="submitFrom(user)" class="form-horizontal" novalidate>
+                    <!-- <div class="row">
+                        <div class="form-group">
+                            <label for="usrname" class="col-sm-2 control-label">Your name:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="username" class="form-control" ng-model="user.username" ng-minlength="5" ng-maxlength="20">
+                                <p ng-show="myForm.username.$error.minlength" class="help">Username is too short.</p>
+                                <p ng-show="myForm.username.$error.maxlength" class="help">Username is too long.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="usremail" class="col-sm-2 control-label">Email:</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" name="email" placeholder="jane.doe@example.com" ng-model="user.email">
+                                <p ng-show="myForm.email.$invalid && !myForm.email.$pristine" class="help">Enter a valid email.</p>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="usrtitle" class="col-sm-2 control-label">Title:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="title" id="usrtitle" placeholder="Title"  ng-minlength="3" ng-maxlength="20" ng-model="user.title" required>
+                                 <p ng-show="myForm.title.$error.minlength" class="help">Title is too short.</p>
+                                  <p ng-show="myForm.title.$error.maxlength" class="help">Title is too long.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="description" class="col-sm-2 control-label">Description:</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" ng-model="user.mainDescription" placeholder="Description" resize>
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row acc-wizard">
+                        <div class="col-md-3">
+                            <span id="helpBlock" class="help-block"><em>Introduction:</em> Welcome to the first step in submitting a new project or partnership. You'll walk through ten questions that will 
+                            help you think through your project or partnership in a way that will produce a one page summary (<i>Referred to as a <b>Lean Canvas</b></i>). Your work will be saved as you 
+                            complete the questions and you can return to your form at any time.</span>
+                            <ol class="orderedlist" ng-repeat="btn in nameBtn">
+                                
+                                <li class="acc-wizard-todo" ng-class="{active: $index == selected}" ng-click="valid.selectTab($index + 1); select($index);">
+                                <sapn class="property1">{{$index + 1}}</sapn>
+                                <a href="#collapseOne">{{btn.name}}</a></li>
+                            </ol>
+                        </div>
+
+                        <div class="col-md-9 class fill" ng-repeat="tab in tabs" >
+                            <div class="panel-group display" id="accordion" role="tablist" aria-multiselectable="true">
+                                <!--q1-->
+                                 <div  class="panel panel-default form-group">
+                                    <div class="panel-heading" role="tab" id="headingTen">
+                                        <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTen" ng-click="valid.selectTab($index + 1); select($index);" aria-expanded="true" aria-controls="collapseTen" >
+                                           {{tab.heading}}</a>
+                                </h4>
+                                    </div>
+                                    <div ng-show='valid.isSelected($index +1)' id="collapseTen" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTen">
+                                        <div class="panel-body">
+                                            <p>{{tab.content}}</p>
+                                            <textarea class="form-control answer" name="{{tab.name}}"  ng-model="user.description[$index +1]" ng-minlength="user.minLength[$index+1]" ng-maxlength="user.maxLength[$index+1]" required></textarea>
+                                            <p ng-show="myForm.{{tab.name}}.$error.minlength" class="help">Message must be over {{user.minLength[$index+1]}} characters.</p>
+                                            <p ng-show="myForm.{{tab.name}}.$error.maxlength" class="help">Message must be onder {{user.maxLength[$index+1]}} characters.</p>
+                                            <div class="acc-wizard-step">
+                                                <button ng-click="valid.procced($index + 2); select($index + 1); checkminval(tab.name);" ng-disabled="myForm.{{tab.name}}.$invalid" class="btn btn-primary">{{buttonLabel}}</button>
+                                                <button ng-click="valid.back($index); select($index - 1);" class="btn btn-pre">Go Back</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                  
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-10 col-sm-2">
+                            <div id="success">
+                                <button ng-if="!user.ucID" type="submit" ng-disabled="myForm.$invalid" name="ssub" ng-click="saveall()" class="btn btn-primary">Submit</button>
+                                <button ng-if="user.ucID" type="submit" ng-disabled="myForm.$invalid" name="ssub" ng-click="updateResponce()" class="btn btn-primary">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="showresp"></div>
+                </form>
+                <!--end of the form-->
+            </div>
+        </div>
+    </div>
+                        
+      
+    <!--libs-->
+    <script src="../libs/jquery-1.11.3.min.js"></script>
+    <script src="../libs/angular.js"></script>
+    <script src="../libs/angular-route.min.js"></script>
+    <script src="../libs/angular-touch.min.js"></script>
+    <script src='../libs/angular-animate.js'></script>
+    <script src="../libs/bootstrap.js"></script>
+    <script src="../libs/ui-bootstrap-tpls-1.2.1.min.js"></script>
+    <script src="../libs/angular-messages.min.js"></script>
+    <script src="../libs/toastr/toastr.js"></script>
+    <script src="../libs/loader.js"></script>
+
+    <!--modules-->
+    <script src="models/mainAppModule.js"></script>
+    <!-- Sevices -->
+    <script src="services/testModelService.js"></script>
+    <!--controllers-->
+    <script src="controllers/ValidationCtrl.js"></script>
+
+</body>
+
+</html>

@@ -1,1 +1,241 @@
-<h1>User Panel</h1>
+<div class="col-md-8 col-md-offset-2">
+    <h1>User Panel</h1>
+    <div ng-init="model.getModelList()" style="margin-top:10px;">
+
+        <div class="row">
+            <button class="btn btn-primary" data-toggle="modal"
+                    data-target="#canvasPopup" style="float:right;">Add New Canvas
+            </button>
+            <table class="table" ng-init="model.getResponces()">
+                <thead>
+                <tr>
+                    <th>Responces</th>
+                    <th style="text-align:right;">View</th>
+                    <th style="text-align:right;">Edit</th>
+                    <th style="text-align:right;">PDF</th>
+                </tr>
+                </thead>
+                <tbody ng-repeat="responce in model.responceList">
+                <tr>
+                    <td>{{responce.title}}</td>
+                    <td style="text-align:right;">
+                        <button class="btn btn-primary" ng-click="model.viewData(responce)" data-toggle="modal"
+                                data-target="#myModal">View
+                        </button>
+                    </td>
+                    <td style="text-align:right;">
+                        <button class="btn btn-primary" ng-click="model.editResponce(responce)">Edit</button>
+                    </td>
+                    <td style="text-align:right;">
+                        <button class="btn btn-danger" ng-click="model.viewPDF(responce)">PDF</button>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+            <!-- popup start -->
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" ng-show="true" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">{{model.showData.title}}</h4>
+                        </div>
+                        <div class="modal-body popUpResponse">
+                            <div class="row" ng-repeat="sQue in model.showData.Question">
+                                <div class="col-xs-12">
+                                    <div class="panel panel-body" style="padding: 0px;">
+                                        <label class="col-sm-12 control-label">{{$index + 1}}.
+                                            {{sQue.qu_quest}}</label>
+                                        <span class="col-sm-12"><b>Answer:</b> {{sQue.re_resp}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- popup end -->
+        </div>
+
+
+        <!-- canvas popup start -->
+        <div class="row">
+            <!-- Modal -->
+            <div class="modal fade" id="canvasPopup" ng-show="true" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Add Canvas</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form name="modelMasterForm" novalidate>
+                                <div class="row">
+                                    <div class="container col-sm-12">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <label for="title" class="col-sm-4 control-label">Title:</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" ng-model="model.masterModel.ca_title"
+                                                               class="form-control" name="title" id="title"
+                                                               placeholder="Title"
+                                                               ng-requried="model.masterModel.ca_title.length == 0"
+                                                               required>
+                                                        <span ng-show="model.masterModel.ca_title.length < 0">Title is required.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row" style="margin-top:10px;">
+                                                <div class="form-group">
+                                                    <label for="description"
+                                                           class="col-sm-4 control-label">Description:</label>
+                                                    <div class="col-sm-8">
+                                                    <textarea class="form-control" ng-model="model.masterModel.ca_desc"
+                                                              name="description" id="description"
+                                                              placeholder="Description"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row" style="margin-top:10px;">
+                                                <div class="form-group">
+                                                    <div class="col-sm-4">
+                                                        <label class="control-label" for="selectedmodel">Select
+                                                            Model:</label>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <select class="col-sm-8" ng-model='model.modelData'
+                                                                id="selectedmodel"
+                                                                ng-options='modelData.mo_name for modelData in model.models'
+                                                                ng-change="model.selectedModel(modelData)">
+                                                            <option value="">Select Any One</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- ng-if="modelData.mo_name" -->
+                                            <div class="row" style="margin-top:20px;" ng-if="false">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">Question List</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row" style="margin-top:10px;">
+                                                <div class="form-group">
+                                                    <div class="col-sm-4">
+                                                        <ul id="question_list" ng-if="false">
+                                                            <li id="questions"
+                                                                ng-class="{'grey' : $index==model.selectedIndex}"
+                                                                ng-click="model.changColor($index,modelName)"
+                                                                ng-repeat="modelName in model.canvasList"
+                                                                ng-if="model.modelName.qu_map"
+                                                                ng-model="qu_map"><a href="javascript:void(0)">Question
+                                                                {{$index+1}}</a></li>
+
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-sm-8" ng-show="model.selectedIndex == $index"
+                                                         ng-repeat="modelName in model.canvasList" ng-if="false">
+
+                                                        <div class="row" style="margin-top:10px;">
+                                                            <div class="form-group">
+                                                                <label for="modelShortName"
+                                                                       class="col-sm-4 control-label">Short
+                                                                    Name:</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text"
+                                                                           ng-model="model.modelName.qu_short"
+                                                                           class="form-control" name="modelShortName"
+                                                                           id="modelShortName"
+                                                                           placeholder="modelShortName"
+                                                                           ng-required=" model.modelName.qu_short.length > 0 || model.modelName.qu_quest.length > 0 || model.modelName.qu_desc.length > 0"
+                                                                           required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row" style="margin-top:10px;">
+                                                            <div class="form-group">
+                                                                <label for="modelTitle" class="col-sm-4 control-label">Question:</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text"
+                                                                           ng-model="model.modelName.qu_quest"
+                                                                           class="form-control" name="modelTitle"
+                                                                           id="modelTitle" placeholder="modelTitle"
+                                                                           ng-required=" model.modelName.qu_short.length > 0 || model.modelName.qu_quest.length > 0 || model.modelName.qu_desc.length > 0"
+                                                                           required>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row" style="margin-top:10px;">
+                                                            <div class="form-group">
+                                                                <label for="modelDescription"
+                                                                       class="col-sm-4 control-label">Description:</label>
+                                                                <div class="col-sm-8">
+                                                                <textarea class="form-control"
+                                                                          ng-model="model.modelName.qu_desc"
+                                                                          name="modelDescription" id="modelDescription"
+                                                                          placeholder="modelDescription"
+                                                                          ng-required=" model.modelName.qu_short.length > 0 || model.modelName.qu_quest.length > 0 || model.modelName.qu_desc.length > 0"
+                                                                          required></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- <div class="row" style="margin-top:10px;">
+                                                          <div class="form-group">
+                                                            <label for="modelMaxLength" class="col-sm-4 control-label">Max Length:</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text"  class="form-control" ng-model="modelName.modelMaxLength" name="modelMaxLength" id="modelMaxLength" placeholder="modelMaxLength" ng-required=" modelName.modelTitle.length > 0 || modelName.modelShortName.length > 0 || modelName.modelDescription.length > 0 || modelName.modelMaxLength.length > 0 || modelName.modelMinLength.length > 0" required>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                        <div class="row" style="margin-top:10px;">
+                                                          <div class="form-group">
+                                                            <label for="modelMinLength" class="col-sm-4 control-label">Min Length:</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text"  class="form-control" ng-model="modelName.modelMinLength" name="modelMinLength" id="modelMinLength" placeholder="modelMinLength" ng-required="modelName.modelTitle.length > 0 || modelName.modelShortName.length > 0 || modelName.modelDescription.length > 0 || modelName.modelMaxLength.length > 0 || modelName.modelMinLength.length > 0" required>
+                                                            </div>
+                                                          </div>
+                                                        </div> -->
+                                                        <span ng-show="!( model.modelName.qu_short.length > 0 && model.modelName.qu_quest.length > 0 && model.modelName.qu_desc.length > 0)">All fields are required.</span>
+                                                        <div class="row" style="margin-top:10px;text-align:center;">
+                                                            <div class="form-group">
+                                                                <div class="col-sm-8">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <input ng-if="!model.masterModel.moID" type="button"
+                                   ng-disabled="!modelMasterForm.$valid || model.modelSelected == false || model.modelData == null "
+                                   class="btn btn-primary" ng-click="model.saveCanvas()" value="Start">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- canvas popup end -->
+    </div>
+</div>

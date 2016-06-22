@@ -1,0 +1,55 @@
+/*!
+ * Sample styles for jQuery accordion wizard based on bootstrap
+ * Original author: @stephen_thomas
+ * Licensed under the MIT license
+ */
+ 
+ol.orderedlist { counter-reset: acc-wizard-counter; margin-left: 0; padding-left: 0; margin-bottom:15px; }
+
+ol.orderedlist li { position: relative; padding: 0 0 0 0; list-style: none ; width:100%; margin:0 0 5px 0;}
+
+ol.orderedlist li:before { content: counter(acc-wizard-counter); counter-increment: acc-wizard-counter; position: absolute; left: -2em; top: 50%; margin-top: -1.3em; height: 2em; width: 2em; line-height: 2em; border: 0; text-align: center; font-weight: 700; color: #333; border-radius: 2em; display:none; }
+
+ol.orderedlist li a { color: #333; clear:left; margin:0 0 0 10px; width:auto; text-decoration:none; outline:none;}
+
+ol.orderedlist li:before { background: #333 }
+
+ol.orderedlist li.acc-wizard-completed, ol.orderedlist li.acc-wizard-completed a { color: #999 }
+
+ol.orderedlist li.acc-wizard-completed:before { background: #999 }
+
+ol.orderedlist li.acc-wizard-completed:after { display: inline-block; vertical-align: middle; font-size: 1.33333333em; width: 1.875em; content: "\00a0\2713"; position: relative; bottom: .1em }
+
+ol.acc-wizard-sidebar li.acc-wizard-active, ol.acc-wizard-sidebar li.acc-wizard-active a { color: #08c }
+
+ol.orderedlist li.acc-wizard-active:before { background: #08c }
+
+ol.orderedlist li:first-child { margin-top: .75em }
+
+.acc-wizard-step { margin-top: 2em }
+
+.panel-heading { height: 2.6em; position: relative; z-index: 1 }
+
+.panel-collapse { padding-top: 2.6em; margin-top: -2.6em }
+
+ol.acc-wizard-sidebar li:before {
+    content: counter(acc-wizard-counter);
+    counter-increment: acc-wizard-counter;
+    position: absolute;
+    left: -2em;
+    top: 50%;
+    margin-top: -1.3em;
+
+    height: 2em;
+    width: 2em;
+    line-height: 2em;
+    border: 0;
+    text-align: center;
+    font-weight: 700;
+    color: #fff;
+    border-radius: 2em
+}
+
+.orderedlist li .property1 { color:#fff; font-weight:700; position:relative; top:0; left:0px; float:left; font-size:14px; z-index:5; background:#333; height:25px; width:25px; border-radius:100%; line-height:25px; text-align:center;}
+ol.orderedlist li.active .property1 { background:#08c;}
+.panel-title a { text-decoration:none; outline:none;}

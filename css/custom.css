@@ -1,0 +1,17 @@
+.panel-group .display{
+	padding: 0px;
+	margin-right: 20px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+.help {
+	color:red;
+
+}
+.panel-group{
+	margin-bottom: 0px;
+}
+.fill{
+	width: 100%;
+	height:500px;
+}

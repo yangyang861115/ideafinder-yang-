@@ -4,7 +4,8 @@
 (function () {
     angular
         .module("myApp")
-        .config(configuration);
+        .config(configuration)
+        .run(restrict);
 
     function configuration($routeProvider, $httpProvider) {
 
@@ -27,12 +28,22 @@
             })
             .when("/userpanel", {
                 templateUrl: "views/dashboard/userpanel.view.html",
+                controller: "UserPanelController",
+                controllerAs: "model",
                 resolve : {
                     loggedIn: checkLoggedIn
                 }
             })
             .when("/adminpanel", {
                 templateUrl: "views/dashboard/adminpanel.view.html",
+                resolve : {
+                    loggedIn: checkLoggedIn
+                }
+            })
+            .when("/responsepanel", {
+                templateUrl: "views/dashboard/responsepanel.view.html",
+                controller: "ResponsePanelController",
+                controllerAs: "model",
                 resolve : {
                     loggedIn: checkLoggedIn
                 }
@@ -133,6 +144,59 @@
             }
         }
 
+    }
+
+    function restrict($rootScope, $location, $window, Auth, User) {
+        $rootScope.$on("$routeChangeStart", function (event, next) {
+            if (!Auth.isAuthed()) {
+                console.log("You don't have a token in session storage");
+                if (next.templateUrl === "views/dashboard/dashboard.view.html") {
+                    $location.path("/login");
+                } else if (next.templateUrl === "views/login/login.view.html") {
+                    console.log("checking cookie..........");
+                    checkLoginAgain();
+                }
+            } else {
+                console.log("You  have a token in session storage");
+                if (next.templateUrl === "views/login/login.view.html") {
+                    $location.path("/dashboard");
+                }
+            }
+        });
+
+        function checkLoginAgain() {
+            var cookieState = Auth.validateRememberMeCookie();
+            if (cookieState) {
+                var token;
+                console.log("this is a valid cookie");
+                var cookielist = document.cookie.split(';');
+                for(var i in cookielist) {
+                    if(cookielist[i].indexOf('remember-me') != -1) {
+                        //get the token from the cookie list
+                        token = cookielist[i].split('=')[1];
+                    }
+                }
+
+                Auth.saveToken(token, function () {
+                    User.validateToken()
+                        .then(function(response){
+                            if (response && response.data.success) {
+                                console.log("login successfully by token in the cookie!");
+                                window.location = "#/dashboard";
+                            }
+                            else {
+                                $window.localStorage.removeItem('jwtToken');
+                                Auth.deleteRememberMeCookie();
+                                window.location = "#/login";
+                                console.log("The token in the cookie is invalid");
+                            }
+                        });
+                });
+
+            } else {
+                console.log("no cookie found or the cookie has expired");
+            }
+        }
     }
 
 })();
