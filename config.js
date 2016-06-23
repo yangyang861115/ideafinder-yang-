@@ -36,6 +36,8 @@
             })
             .when("/adminpanel", {
                 templateUrl: "views/dashboard/adminpanel.view.html",
+                controller: "AdminPanelController",
+                controllerAs: "model",
                 resolve : {
                     loggedIn: checkLoggedIn
                 }

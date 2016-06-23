@@ -1,9 +1,13 @@
+/**
+ * Created by yangyang on 6/23/16.
+ */
+
 (function () {
     angular
         .module("myApp")
-        .controller("UserPanelController", userPanelController);
+        .controller("AdminPanelController", adminPanelController);
 
-    function userPanelController($window, Canvas) {
+    function adminPanelController(AdminCanvas) {
         var vm = this;
         vm.modelList = [
             {
@@ -142,28 +146,40 @@
                 modelMinLength: ''
             }
         ];
-        vm.modelSelected = false;
-        vm.canvasList = [];
         vm.selectedIndex = 0;
         vm.masterModel = {
-            ca_title: "",
-            ca_desc: "",
-            ca_model: "",
-            Question: vm.canvasList
+            mo_name: '',
+            mo_desc: '',
+            mo_list: vm.modelList
         };
-        vm.userResponces = [];
+        vm.invalidLength = false;
 
-        vm.getModelList = getModelList;
-        vm.getResponces = getResponces;
-        vm.viewData = viewData;
-        vm.selectedModel = selectedModel;
+        function init(){
+            getModelList();
+        }
+        init();
+
         vm.changColor = changColor;
-        vm.saveCanvas = saveCanvas;
-        vm.viewPDF = viewPDF;
-        vm.editResponce = editResponce;
+        vm.saveModel = saveModel;
+        vm.getModelList = getModelList;
+        vm.editModel = editModel;
+        vm.updateModel = updateModel;
+        vm.addNewModel = addNewModel;
+        vm.checkLength = checkLength;
+
+
+        function changColor(index) {
+            vm.selectedIndex = index;
+        }
+
+        function saveModel() {
+            AdminCanvas
+                .saveMasterModel(vm.masterModel);
+            init();
+        }
 
         function getModelList() {
-            Canvas
+            AdminCanvas
                 .getModelList()
                 .then(
                     function (response) {
@@ -172,34 +188,15 @@
                         // something went wrong
                         return $q.reject(error.data);
                     });
-
         }
 
-        function getResponces() {
-            localStorage.setItem("qu_mcID", '');
-            localStorage.setItem("ca_title", '');
-            localStorage.setItem("ca_desc", '');
-
-            Canvas
-                .getResponces()
-                .then(
-                    function (response) {
-                        vm.responceList = response.data.response_data;
-
-                    },
-                    function (error) {
-                        // something went wrong
-                        return $q.reject(error.data);
-                    });
-        }
-
-        function viewData(data) {
-            vm.showData = data;
-        }
-
-        function selectedModel(model) {
-            vm.modelSelected = true;
-
+        function editModel(model) {
+            vm.selectedIndex = 0;
+            vm.masterModel = {
+                moID: model.moID,
+                mo_name: model.mo_name,
+                mo_desc: model.mo_desc
+            };
 
             var tempValue1 = model.mo_1.split('^');
             var tempValue2 = model.mo_2.split('^');
@@ -355,44 +352,193 @@
                 }
             ];
 
-            vm.canvasList = [];
+            vm.masterModel.mo_list = vm.modelList;
+        }
 
-            angular.forEach(vm.modelList, function (value, key) {
-                if (value.modelTitle) {
-                    this.push(
-                        {
-                            'qu_map': value.Name,
-                            'qu_short': value.modelTitle,
-                            'qu_quest': value.modelShortName,
-                            'qu_desc': value.modelDescription,
-                            'qu_max': value.modelMaxLength,
-                            'qu_min': value.modelMinLength
-                        });
+        function updateModel() {
+            AdminCanvas
+                .updateModel(vm.masterModel)
+                .success(function (data) {
+                    vm.getModelList();
+                }).error(function (err) {
+                toastr.warning(err);
+            });
+        }
+
+        function addNewModel() {
+            vm.modelList =
+                [
+                    {
+                        Id: 1,
+                        Name: 'mo_1',
+                        modelTitle: '',
+                        modelShortName: '',
+                        modelDescription: '',
+                        modelMaxLength: '',
+                        modelMinLength: ''
+
+                    }, {
+                    Id: 2,
+                    Name: 'mo_2',
+                    modelTitle: '',
+                    modelShortName: '',
+                    modelDescription: '',
+                    modelMaxLength: '',
+                    modelMinLength: ''
+
+                }, {
+                    Id: 3,
+                    Name: 'mo_3',
+                    modelTitle: '',
+                    modelShortName: '',
+                    modelDescription: '',
+                    modelMaxLength: '',
+                    modelMinLength: ''
+
+                }, {
+                    Id: 4,
+                    Name: 'mo_4',
+                    modelTitle: '',
+                    modelShortName: '',
+                    modelDescription: '',
+                    modelMaxLength: '',
+                    modelMinLength: ''
+
+                }, {
+                    Id: 5,
+                    Name: 'mo_5',
+                    modelTitle: '',
+                    modelShortName: '',
+                    modelDescription: '',
+                    modelMaxLength: '',
+                    modelMinLength: ''
+
+                }, {
+                    Id: 6,
+                    Name: 'mo_6',
+                    modelTitle: '',
+                    modelShortName: '',
+                    modelDescription: '',
+                    modelMaxLength: '',
+                    modelMinLength: ''
+
+                }, {
+                    Id: 7,
+                    Name: 'mo_7',
+                    modelTitle: '',
+                    modelShortName: '',
+                    modelDescription: '',
+                    modelMaxLength: '',
+                    modelMinLength: ''
+
+                }, {
+                    Id: 8,
+                    Name: 'mo_8',
+                    modelTitle: '',
+                    modelShortName: '',
+                    modelDescription: '',
+                    modelMaxLength: '',
+                    modelMinLength: ''
+
+                }, {
+                    Id: 9,
+                    Name: 'mo_9',
+                    modelTitle: '',
+                    modelShortName: '',
+                    modelDescription: '',
+                    modelMaxLength: '',
+                    modelMinLength: ''
+
+                }, {
+                    Id: 10,
+                    Name: 'mo_10',
+                    modelTitle: '',
+                    modelShortName: '',
+                    modelDescription: '',
+                    modelMaxLength: '',
+                    modelMinLength: ''
+
+                }, {
+                    Id: 11,
+                    Name: 'mo_11',
+                    modelTitle: '',
+                    modelShortName: '',
+                    modelDescription: '',
+                    modelMaxLength: '',
+                    modelMinLength: ''
+
+                }, {
+                    Id: 12,
+                    Name: 'mo_12',
+                    modelTitle: '',
+                    modelShortName: '',
+                    modelDescription: '',
+                    modelMaxLength: '',
+                    modelMinLength: ''
+
+                }, {
+                    Id: 13,
+                    Name: 'mo_13',
+                    modelTitle: '',
+                    modelShortName: '',
+                    modelDescription: '',
+                    modelMaxLength: '',
+                    modelMinLength: ''
+
+                }, {
+                    Id: 14,
+                    Name: 'mo_14',
+                    modelTitle: '',
+                    modelShortName: '',
+                    modelDescription: '',
+                    modelMaxLength: '',
+                    modelMinLength: ''
+
+                }, {
+                    Id: 15,
+                    Name: 'mo_15',
+                    modelTitle: '',
+                    modelShortName: '',
+                    modelDescription: '',
+                    modelMaxLength: '',
+                    modelMinLength: ''
                 }
-            }, vm.canvasList);
-
-            vm.masterModel.ca_model = model.moID;
-            vm.masterModel.Question = vm.canvasList;
+                ];
+            vm.selectedIndex = 0;
+            vm.masterModel = {
+                mo_name: '',
+                mo_desc: '',
+                mo_list: vm.modelList
+            };
         }
 
-        function changColor(index) {
-            vm.selectedIndex = index;
+        function checkLength(maxLength, minLength) {
+            if (parseInt(maxLength) > parseInt(minLength)) {
+                vm.invalidLength = false;
+            } else {
+                vm.invalidLength = true;
+            }
         }
-
-        function saveCanvas() {
-            Canvas.saveCanvas(vm.masterModel);
-        }
-
-        function viewPDF(responce) {
-            //need to find the baseUrl
-            var baseURL = "";
-            $window.open(baseURL + '/' + responce.pdf_report_url);
-        }
-
-        function editResponce(responce) {
-            Canvas.editResponce(responce.ucID);
-        }
-
     }
-
 })();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

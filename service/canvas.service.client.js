@@ -28,7 +28,7 @@
             var data = {
                 params: {user_id: 1}
             };
-            console.log(myConfig.baseURL);
+
             return $http.get(myConfig.baseURL + '/brasstacksapi/index.php/Api/model', data);
         }
 
@@ -53,16 +53,23 @@
                 data: canvasData
             };
 
+            console.log(data);
+
             localStorage.setItem("ucID", '');
             localStorage.setItem("ca_title", canvasData.ca_title);
             localStorage.setItem("ca_desc", canvasData.ca_desc);
 
+
             $http
                 .post(myConfig.baseURL + '/brasstacksapi/index.php/Api/canvas', data)
                 .then(
-                    function (data) {
-                        localStorage.setItem("qu_mcID", data.caID);
-                        window.location = myConfig.baseURL + '/responcePanel/#/'
+                    function (response) {
+                        console.log(response.data);
+                        localStorage.setItem("qu_mcID", response.data.caID);
+                        //$('body').removeClass('modal-open');
+                        document.getElementsByTagName("body")[0].setAttribute('class', "");
+                        document.querySelectorAll('.modal-backdrop')[0].remove();
+                        $location.url('/responsepanel');
                     },
                     function (error) {
                         toastr.warning(error);
