@@ -20,13 +20,17 @@
         vm.cancelUpdate = cancelUpdate;
         vm.changeRegionList = changeRegionList;
         vm.askForProfileMsg = false;
+
         function init() {
+            console.log("I am here in the dashboard controller");
             //check token strt
             var tokenSet = Auth.parseJwt(Auth.getToken());
             if(tokenSet.fixpro) {
                 vm.askForProfileMsg = true;
                 getProfile();
             }
+            vm.isAdmin = Auth.checkAdmin();
+            console.log("are you admin? " + vm.isAdmin);
         }
         init();
 
@@ -187,7 +191,6 @@
         function cancelUpdate() {
             vm.data = null;
         }
-
 
     }
 

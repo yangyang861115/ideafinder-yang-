@@ -4,7 +4,7 @@
 
     <button class="btn btn-info" ng-click="model.getProfile()">Get Profile</button>
     <a href="#/userpanel" class="btn btn-info">End User Panel</a>
-    <a href="#/adminpanel" class="btn btn-info">Admin Panel</a>
+    <a href="#/adminpanel" class="btn btn-info" ng-show="model.isAdmin">Admin Panel</a>
 
     <div ng-if="model.data" ng-hide="model.msg">
         <p ng-show="model.askForProfileMsg">Please update your profile in the following form.</p>

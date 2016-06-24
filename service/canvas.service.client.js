@@ -7,6 +7,8 @@
         .factory('Canvas', canvas);
 
     function canvas(Auth, $http, myConfig, $location) {
+        var userId = parseInt(Auth.getUserId());
+        console.log("user id in user panel: " +userId);
         var api = {
             //userpanel
             getModelList: getModelList,
@@ -22,8 +24,6 @@
         };
         return api;
 
-        //var userId = Auth.getUserId();
-
         function getModelList() {
             var data = {
                 params: {user_id: 1}
@@ -34,7 +34,7 @@
 
         function getResponces() {
             var data = {
-                params: {user_id: 1}
+                params: {user_id: userId}
             }
             return $http.get(myConfig.baseURL + '/brasstacksapi/index.php/Api/userresponse', data);
         }
@@ -49,7 +49,7 @@
 
         function saveCanvas(canvasData) {
             var data = {
-                user_id: 1,
+                user_id: userId,
                 data: canvasData
             };
 
@@ -79,7 +79,7 @@
         function getCanvasList() {
             var data = {
                 params: {
-                    user_id: 1,
+                    user_id: userId,
                     qu_mcID: localStorage.getItem("qu_mcID")
                 }
             }
@@ -88,7 +88,7 @@
 
         function saveAnswers(answersList) {
             var data = {
-                user_id: 1,
+                user_id: userId,
                 data: answersList
             };
             return $http.post(myConfig.baseURL + '/brasstacksapi/index.php/Api/userresponse', data)
@@ -97,7 +97,7 @@
         function getUserresponse(ucID) {
             var data = {
                 params: {
-                    user_id: 1,
+                    user_id: userId,
                     ucID: ucID
                 }
             };
@@ -106,7 +106,7 @@
 
         function updateResponce(answersList) {
             var data = {
-                user_id: 1,
+                user_id: userId,
                 data: answersList
             };
             return $http.put(myConfig.baseURL + '/brasstacksapi/index.php/Api/userresponse', data);

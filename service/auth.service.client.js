@@ -13,6 +13,8 @@
             getToken: getToken,
             isAuthed: isAuthed,
             logout: logout,
+            checkAdmin: checkAdmin,
+            getUserId: getUserId,
             saveRememberMeCookie: saveRememberMeCookie,
             deleteRememberMeCookie: deleteRememberMeCookie,
             validateRememberMeCookie: validateRememberMeCookie,
@@ -87,6 +89,21 @@
                 }
             }
             return token;
+        }
+
+        function checkAdmin(){
+            var token = getToken();
+            var payload = parseJwt(token);
+            var admin = payload.adm;
+            var id = payload.id;
+            if(id == admin) return true;
+            else return false;
+        }
+
+        function getUserId(){
+            var token = getToken();
+            var payload = parseJwt(token);
+            return payload.id;
         }
 
         return api;

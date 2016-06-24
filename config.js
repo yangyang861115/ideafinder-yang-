@@ -39,7 +39,8 @@
                 controller: "AdminPanelController",
                 controllerAs: "model",
                 resolve : {
-                    loggedIn: checkLoggedIn
+                    loggedIn: checkLoggedIn,
+                    admin: checkAdmin
                 }
             })
             .when("/responsepanel", {
@@ -113,6 +114,17 @@
             return deferred.promise;
         }
 
+        function checkAdmin(Auth, $location,$q){
+            var deferred = $q.defer();
+            var admin = Auth.checkAdmin();
+            if(admin) {
+                deferred.resolve();
+            } else {
+                deferred.reject();
+                $location.url('/dashboard');
+            }
+            return deferred.promise;
+        }
 
         $httpProvider.interceptors.push(authInterceptor);
 

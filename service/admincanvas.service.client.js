@@ -7,6 +7,10 @@
         .factory('AdminCanvas', adminCanvas);
 
     function adminCanvas(Auth, $http, myConfig) {
+
+        var userId = parseInt(Auth.getUserId());
+        console.log("user id in admin panel: " + userId);
+
         var api = {
             saveMasterModel: saveMasterModel,
             getModelList: getModelList,
@@ -16,7 +20,7 @@
 
         function saveMasterModel(data2) {
             var data = {
-                user_id: 1,
+                user_id: userId,
                 data: data2
             };
             var response = $http.post(myConfig.baseURL + '/brasstacksapi/index.php/Api/model', data);
@@ -30,14 +34,14 @@
 
         function getModelList() {
             var data = {
-                params: {user_id: 1}
+                params: {user_id: userId}
             }
             return $http.get(myConfig.baseURL + '/brasstacksapi/index.php/Api/model', data);
         }
 
         function updateModel(masterModel) {
             var data = {
-                user_id: 1,
+                user_id: userId,
                 data: masterModel
             }
             var response = $http.put(myConfig.baseURL + '/brasstacksapi/index.php/Api/model', data);
