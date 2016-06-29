@@ -95,6 +95,7 @@
                     .getUserresponse(localStorage.getItem("ucID"))
                     .then(
                         function (response) {
+
                             var i = 1;
                             angular.forEach(response.data.response_data[0].Question, function (value, key) {
                                 vm.nameBtn.push({'name': value.qu_short});
@@ -171,16 +172,18 @@
             Canvas
                 .saveAnswers(vm.answersList)
                 .then(
-                    function (data) {
-                        if (data.success) {
+                    function (response) {
+                        console.log(response);
+                        if (response.data.success) {
                             vm.preLoader = false;
                             localStorage.setItem("qu_mcID", '');
                             localStorage.setItem("ca_title", '');
                             localStorage.setItem("ca_desc", '');
+                            toastr.success(response.data.message);
                             $location.url('/userpanel');
                         } else {
                             vm.preLoader = false;
-                            toastr.warning(data);
+                            toastr.warning(response.data.message);
                         }
                     },
                     function (error) {
@@ -211,6 +214,7 @@
                         if(data.success){
                             vm.preLoader = false;
                             localStorage.setItem("ucID", '');
+                            toastr.success(data.message);
                             $location.url('/userpanel');
                         }else{
                             vm.preLoader = false;

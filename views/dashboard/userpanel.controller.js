@@ -168,6 +168,13 @@
                 .then(
                     function (response) {
                         vm.models = response.data.response_data;
+                        console.log(vm.models);
+                        if(vm.models.length == 0) {
+                            vm.hasModels = false;
+                        }
+                        else {
+                            vm.hasModels = true;
+                        }
                     }, function (error) {
                         // something went wrong
                         return $q.reject(error.data);

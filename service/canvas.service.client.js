@@ -24,6 +24,7 @@
         };
         return api;
 
+        //list of models for the dropdown
         function getModelList() {
             var data = {
                 params: {user_id: 1}
@@ -91,7 +92,7 @@
                 user_id: userId,
                 data: answersList
             };
-            return $http.post(myConfig.baseURL + '/brasstacksapi/index.php/Api/userresponse', data)
+            return $http.post(myConfig.baseURL + '/brasstacksapi/index.php/Api/userresponse', data);
         }
 
         function getUserresponse(ucID) {

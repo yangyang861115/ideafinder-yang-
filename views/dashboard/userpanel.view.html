@@ -1,10 +1,10 @@
 <div class="col-md-8 col-md-offset-2">
     <h1>User Panel</h1>
-    <div ng-init="model.getModelList()" style="margin-top:10px;">
+    <div style="margin-top:10px;">
 
         <div class="row">
             <button class="btn btn-primary" data-toggle="modal"
-                    data-target="#canvasPopup" style="float:right;">Add New Canvas
+                    data-target="#canvasPopup" style="float:right;" ng-click="model.getModelList()">Add New Canvas
             </button>
             <table class="table" ng-init="model.getResponces()">
                 <thead>
@@ -68,7 +68,7 @@
         <div class="row">
             <!-- Modal -->
             <div class="modal fade" id="canvasPopup" ng-show="true" role="dialog">
-                <div class="modal-dialog">
+                <div class="modal-dialog" ng-if="model.hasModels">
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
@@ -115,7 +115,7 @@
                                                     <div class="col-sm-8">
                                                         <select class="col-sm-8" ng-model='model.modelData'
                                                                 id="selectedmodel"
-                                                                ng-options='modelData.mo_name for modelData in model.models'
+                                                                ng-options='modelData.mo_name for modelData in model.models | orderBy:"mo_name"'
                                                                 ng-change="model.selectedModel(model.modelData)">
                                                             <option value="">Select Any One</option>
                                                         </select>
@@ -234,8 +234,27 @@
                         </div>
                     </div>
                 </div>
+
+                <!--message-->
+                <div class="modal-dialog" ng-if="!model.hasModels">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Message</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>I am sorry, but there are no active models yet to choose from for this organizatoin.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+                <!--end of message-->
+
             </div>
         </div>
         <!-- canvas popup end -->
+
     </div>
 </div>

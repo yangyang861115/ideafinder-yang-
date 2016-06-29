@@ -45,7 +45,7 @@
                     <label for="usrtitle" class="col-sm-2 control-label">Title:</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" name="title" id="usrtitle" placeholder="Title"
-                               ng-minlength="3" ng-maxlength="20" ng-model="model.user.title" required>
+                               ng-minlength="3" ng-maxlength="75" ng-model="model.user.title" required>
                         <p ng-show="myForm.title.$error.minlength" class="help">Title is too short.</p>
                         <p ng-show="myForm.title.$error.maxlength" class="help">Title is too long.</p>
                     </div>
