@@ -5,8 +5,7 @@
 	margin-bottom: 0px;
 }
 .help {
-	color:red;
-
+	color:red !important;
 }
 .panel-group{
 	margin-bottom: 0px;
@@ -14,4 +13,12 @@
 .fill{
 	width: 100%;
 	height:500px;
+}
+
+#myNewModelForm input.ng-invalid {
+	border: 2px solid red;
+}
+
+#myNewModelForm textarea.ng-invalid {
+	border: 2px solid red;
 }

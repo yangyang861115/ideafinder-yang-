@@ -163,7 +163,7 @@
     function restrict($rootScope, $location, $window, Auth, User) {
         $rootScope.$on("$routeChangeStart", function (event, next) {
             if (!Auth.isAuthed()) {
-                console.log("You don't have a token in session storage");
+                //console.log("You don't have a token in session storage");
                 if (next.templateUrl === "views/dashboard/dashboard.view.html") {
                     $location.path("/login");
                 } else if (next.templateUrl === "views/login/login.view.html") {
@@ -171,7 +171,7 @@
                     checkLoginAgain();
                 }
             } else {
-                console.log("You  have a token in session storage");
+                //console.log("You  have a token in session storage");
                 if (next.templateUrl === "views/login/login.view.html") {
                     $location.path("/dashboard");
                 }

@@ -199,13 +199,13 @@
             var questions = [];
             for (var idx in data) {
                 if (questionKeyList.indexOf(idx) >= 0) {
-                    var tempValue = data[idx].split('^');
+                    var tempValue = (data[idx].replace(/[\n\r]+/g, '')).split('^');
 
                     questions.push({
                         Id: parseInt(idx.substring(3)),
                         Name: idx,
-                        modelTitle: tempValue[0],
-                        modelShortName: tempValue[1],
+                        modelTitle: tempValue[1],
+                        modelShortName: tempValue[0],
                         modelDescription: tempValue[2],
                         modelMaxLength: tempValue[3],
                         modelMinLength: tempValue[4]
@@ -213,6 +213,7 @@
                 }
             }
             vm.myNewModel.mo_list = questions;
+            console.log(vm.myNewModel);
         }
 
         function clearNewModel() {
@@ -234,10 +235,10 @@
 
             AdminCanvas
                 .saveMasterModel(modeldata)
-                .then(function(response) {
+                .then(function (response) {
                     clearNewModel();
                     init();
-                    document.getElementById("myNewModal").style.display= "none";
+                    document.getElementById("myNewModal").style.display = "none";
                     document.getElementsByTagName("body")[0].setAttribute('class', "");
                     document.querySelectorAll('.modal-backdrop')[0].remove();
                 });
@@ -269,7 +270,7 @@
                 moID: model.moID,
                 mo_name: model.mo_name,
                 mo_desc: model.mo_desc,
-                mo_list:  []
+                mo_list: []
             };
 
             for (var idx in model) {
@@ -278,8 +279,8 @@
                     vm.masterModel.mo_list.push({
                         Id: parseInt(idx.substring(3)),
                         Name: idx,
-                        modelTitle: tempValue[0],
-                        modelShortName: tempValue[1],
+                        modelTitle: tempValue[1],
+                        modelShortName: tempValue[0],
                         modelDescription: tempValue[2],
                         modelMaxLength: tempValue[3],
                         modelMinLength: tempValue[4]
@@ -447,32 +448,13 @@
         }
 
         function checkLength(maxLength, minLength) {
+
             if (parseInt(maxLength) > parseInt(minLength)) {
-                vm.invalidLength = false;
+
+                return false;
             } else {
-                vm.invalidLength = true;
+                return true;
             }
         }
     }
 })();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

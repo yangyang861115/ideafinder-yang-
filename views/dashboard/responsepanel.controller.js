@@ -83,10 +83,10 @@
 
             vm.nameBtn = [];
             vm.tabs = [];
-            vm.user={};
-            vm.user.description={};
-            vm.user.maxLength={};
-            vm.user.minLength={};
+            vm.user = {};
+            vm.user.description = {};
+            vm.user.maxLength = {};
+            vm.user.minLength = {};
 
             if (localStorage.getItem("ucID") != '') {
                 // Edit mode start
@@ -95,7 +95,6 @@
                     .getUserresponse(localStorage.getItem("ucID"))
                     .then(
                         function (response) {
-
                             var i = 1;
                             angular.forEach(response.data.response_data[0].Question, function (value, key) {
                                 vm.nameBtn.push({'name': value.qu_short});
@@ -209,19 +208,19 @@
             Canvas
                 .updateResponce(vm.answersList)
                 .success(
-                    function(data){
+                    function (data) {
                         console.log(data);
-                        if(data.success){
+                        if (data.success) {
                             vm.preLoader = false;
                             localStorage.setItem("ucID", '');
                             toastr.success(data.message);
                             $location.url('/userpanel');
-                        }else{
+                        } else {
                             vm.preLoader = false;
                             toastr.warning(data);
                         }
                     })
-                .error(function(error){
+                .error(function (error) {
                     console.log(error);
                     vm.preLoader = false;
                     toastr.warning(error);
@@ -230,6 +229,8 @@
         }
     }
 })();
+
+
 
 
 

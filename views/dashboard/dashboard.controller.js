@@ -22,7 +22,7 @@
         vm.askForProfileMsg = false;
 
         function init() {
-            console.log("I am here in the dashboard controller");
+            //console.log("I am here in the dashboard controller");
             //check token strt
             var tokenSet = Auth.parseJwt(Auth.getToken());
             if(tokenSet.fixpro) {
@@ -30,7 +30,7 @@
                 getProfile();
             }
             vm.isAdmin = Auth.checkAdmin();
-            console.log("are you admin? " + vm.isAdmin);
+            //console.log("are you admin? " + vm.isAdmin);
         }
         init();
 

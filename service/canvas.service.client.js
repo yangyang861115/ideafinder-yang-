@@ -8,7 +8,6 @@
 
     function canvas(Auth, $http, myConfig, $location) {
         var userId = parseInt(Auth.getUserId());
-        console.log("user id in user panel: " +userId);
         var api = {
             //userpanel
             getModelList: getModelList,
@@ -44,7 +43,7 @@
             localStorage.setItem("ucID", ucID);
             localStorage.setItem("ca_title", '');
             localStorage.setItem("ca_desc", '');
-            console.log(localStorage.getItem('ucID'));
+
             $location.url('/responsepanel');
         }
 
@@ -54,7 +53,6 @@
                 data: canvasData
             };
 
-            console.log(data);
 
             localStorage.setItem("ucID", '');
             localStorage.setItem("ca_title", canvasData.ca_title);
@@ -65,7 +63,6 @@
                 .post(myConfig.baseURL + '/brasstacksapi/index.php/Api/canvas', data)
                 .then(
                     function (response) {
-                        console.log(response.data);
                         localStorage.setItem("qu_mcID", response.data.caID);
                         //$('body').removeClass('modal-open');
                         document.getElementsByTagName("body")[0].setAttribute('class', "");

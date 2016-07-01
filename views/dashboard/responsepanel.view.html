@@ -73,8 +73,8 @@
 
                             <li class="acc-wizard-todo" ng-class="{active: $index == model.selected}"
                                 ng-click="model.selectTab($index + 1); model.select($index);">
-                                <sapn class="property1">{{$index + 1}}</sapn>
-                                <a href="">{{btn.name}}</a></li>
+                                <span class="property1">{{$index + 1}}</span>
+                                <a href="" ng-class="{help: myForm['q{{$index+1}}'].$invalid}">{{btn.name}}</a></li>
                         </ol>
                     </div>
 
@@ -121,15 +121,16 @@
 
 
                 <div class="form-group">
-                    <div class="col-sm-offset-10 col-sm-2">
-                        <div id="success">
+                    <div class="col-sm-offset-9 col-sm-3">
+                        <a href="#/userpanel" class="btn btn-warning">Cancel</a>
+
                             <button ng-if="!model.user.ucID" type="submit" ng-disabled="myForm.$invalid" name="ssub"
                                     ng-click="model.saveall()" class="btn btn-primary">Submit
                             </button>
                             <button ng-if="model.user.ucID" type="submit" ng-disabled="myForm.$invalid" name="ssub"
                                     ng-click="model.updateResponce()" class="btn btn-primary">Update
                             </button>
-                        </div>
+
                     </div>
                 </div>
 

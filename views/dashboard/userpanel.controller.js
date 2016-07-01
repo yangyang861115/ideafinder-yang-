@@ -396,8 +396,9 @@
             $window.open(baseURL + '/' + responce.pdf_report_url);
         }
 
-        function editResponce(responce) {
-            Canvas.editResponce(responce.ucID);
+        function editResponce(response) {
+
+            Canvas.editResponce(response.ucID);
         }
 
     }
