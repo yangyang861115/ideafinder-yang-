@@ -25,6 +25,12 @@
             //console.log("I am here in the dashboard controller");
             //check token strt
             var tokenSet = Auth.parseJwt(Auth.getToken());
+            if(Auth.validateRememberMeCookie()) {
+                vm.isRemembered = true;
+            } else {
+                vm.isRemembered = false;
+            }
+
             if(tokenSet.fixpro) {
                 vm.askForProfileMsg = true;
                 getProfile();
@@ -145,6 +151,7 @@
         }
 
         function updateProfile(form, data) {
+
             if(form.$invalid) {
                 return;
             } else {
@@ -152,13 +159,13 @@
                     delete data['username'];
                     delete data['password'];
                     delete data['confirmPassword'];
-                    delete data['remember'];
+
                 }
                 if (vm.userninfo.recno != 'new' && !vm.updatePwd) {
-                    console.log("I am here........");
+
                     delete data['password'];
                     delete data['confirmPassword'];
-                    delete data['remember'];
+
                 }
 
                 User.updateProfile(data)
@@ -171,14 +178,16 @@
                             vm.updatePwd = false;
 
                             //remember me
-                            if(data.remember) {
+                            if (data.remember) {
                                 var token = Auth.getToken();
                                 Auth.saveRememberMeCookie(token);
+                            } else {
+                                Auth.deleteRememberMeCookie();
                             }
 
                             delete data['password'];
                             delete data['confirmPassword'];
-                            delete data['remember'];
+
                         } else {
                             //vm.errormsg = response.data.msg;
                             alert(response.data.msg);
