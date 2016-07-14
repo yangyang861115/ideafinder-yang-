@@ -4,7 +4,7 @@
 (function () {
     angular
         .module("myApp",
-            ['ngRoute', 'ngStorage', 'ngAnimate', 'ngResource', 'ngTouch','ngMessages', 'ui.bootstrap', 'ui.validate'])
+            ['ngRoute', 'ngStorage', 'ngAnimate', 'ngResource', 'ngTouch','ngMessages', 'ui.bootstrap', 'ui.validate', 'ngFileUpload', 'ngImgCrop'])
         .constant("myConfig", {
             "baseURL": window.location.origin,
             "pathArray": window.location.pathname.split('/'),
